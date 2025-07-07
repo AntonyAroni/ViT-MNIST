@@ -12,6 +12,8 @@ namespace MatrixOps {
     Matrix matmul(const Matrix& a, const Matrix& b);
 
     // Element-wise operations
+    Matrix add(const Matrix& a, const Matrix& b);          // transformer block
+    Matrix subtract(const Matrix& a, const Matrix& b);     // transformer block
     Matrix elementWiseMultiply(const Matrix& a, const Matrix& b);
     Matrix elementWiseDivide(const Matrix& a, const Matrix& b);
 

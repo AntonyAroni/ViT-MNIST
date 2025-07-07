@@ -30,6 +30,34 @@ Matrix matmul(const Matrix& a, const Matrix& b) {
     return result;
 }
 
+Matrix add(const Matrix& a, const Matrix& b) {
+    if (a.getRows() != b.getRows() || a.getCols() != b.getCols()) {
+        throw std::invalid_argument("Matrices must have the same dimensions for addition");
+    }
+
+    Matrix result(a.getRows(), a.getCols());
+    for (size_t i = 0; i < a.getRows(); ++i) {
+        for (size_t j = 0; j < a.getCols(); ++j) {
+            result(i, j) = a(i, j) + b(i, j);
+        }
+    }
+    return result;
+}
+
+Matrix subtract(const Matrix& a, const Matrix& b) {
+    if (a.getRows() != b.getRows() || a.getCols() != b.getCols()) {
+        throw std::invalid_argument("Matrices must have the same dimensions for subtraction");
+    }
+
+    Matrix result(a.getRows(), a.getCols());
+    for (size_t i = 0; i < a.getRows(); ++i) {
+        for (size_t j = 0; j < a.getCols(); ++j) {
+            result(i, j) = a(i, j) - b(i, j);
+        }
+    }
+    return result;
+}
+
 Matrix elementWiseMultiply(const Matrix& a, const Matrix& b) {
     if (a.getRows() != b.getRows() || a.getCols() != b.getCols()) {
         throw std::invalid_argument("Matrices must have same dimensions for element-wise multiplication");

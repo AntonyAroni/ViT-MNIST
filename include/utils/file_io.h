@@ -23,9 +23,14 @@ namespace FileIO {
     // Save matrix to CSV file
     void save_matrix_to_csv(const Matrix& matrix, const std::string& filename);
     
+    // MNIST IDX format loaders
+    Matrix load_mnist_images(const std::string& filename);
+    std::vector<int> load_mnist_labels(const std::string& filename);
+    
     // Utility functions
     std::vector<std::string> split_string(const std::string& str, char delimiter);
     bool file_exists(const std::string& filename);
+    uint32_t read_big_endian_uint32(std::ifstream& file);
 }
 
 #endif //FILE_IO_H

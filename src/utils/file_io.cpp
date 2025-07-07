@@ -197,4 +197,65 @@ namespace FileIO {
         return result;
     }
 
+    uint32_t read_big_endian_uint32(std::ifstream& file) {
+        uint32_t value = 0;
+        file.read(reinterpret_cast<char*>(&value), sizeof(value));
+        // Convert from big-endian to host byte order
+        return ((value & 0xFF) << 24) | (((value >> 8) & 0xFF) << 16) | 
+               (((value >> 16) & 0xFF) << 8) | ((value >> 24) & 0xFF);
+    }
+
+    Matrix load_mnist_images(const std::string& filename) {
+        std::ifstream file(filename, std::ios::binary);
+        if (!file.is_open()) {
+            throw std::runtime_error("Cannot open MNIST image file: " + filename);
+        }
+
+        uint32_t magic = read_big_endian_uint32(file);
+        if (magic != 2051) {
+            throw std::runtime_error("Invalid MNIST image file magic number");
+        }
+
+        uint32_t num_images = read_big_endian_uint32(file);
+        uint32_t rows = read_big_endian_uint32(file);
+        uint32_t cols = read_big_endian_uint32(file);
+
+        Matrix images(num_images, rows * cols);
+        
+        for (uint32_t i = 0; i < num_images; ++i) {
+            for (uint32_t j = 0; j < rows * cols; ++j) {
+                unsigned char pixel;
+                file.read(reinterpret_cast<char*>(&pixel), 1);
+                images(i, j) = static_cast<double>(pixel) / 255.0; // Normalize to [0,1]
+            }
+        }
+
+        file.close();
+        return images;
+    }
+
+    std::vector<int> load_mnist_labels(const std::string& filename) {
+        std::ifstream file(filename, std::ios::binary);
+        if (!file.is_open()) {
+            throw std::runtime_error("Cannot open MNIST label file: " + filename);
+        }
+
+        uint32_t magic = read_big_endian_uint32(file);
+        if (magic != 2049) {
+            throw std::runtime_error("Invalid MNIST label file magic number");
+        }
+
+        uint32_t num_labels = read_big_endian_uint32(file);
+        std::vector<int> labels(num_labels);
+        
+        for (uint32_t i = 0; i < num_labels; ++i) {
+            unsigned char label;
+            file.read(reinterpret_cast<char*>(&label), 1);
+            labels[i] = static_cast<int>(label);
+        }
+
+        file.close();
+        return labels;
+    }
+
 }
