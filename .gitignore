@@ -33,3 +33,34 @@ obj/
 
 # Archivos de logs
 *.log
+
+
+# Archivos y carpetas de CLion y CMake
+cmake-build-*/           # Directorio de compilación por defecto en CLion
+CMakeFiles/
+CMakeCache.txt
+Makefile
+cmake_install.cmake
+
+# Ejecutables comunes
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dylib
+
+# Archivos temporales y de respaldo
+*.log
+*.tmp
+*.swp
+*~
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Opcional: configuración específica del entorno
+.idea/                   # Carpeta de configuración de CLion
